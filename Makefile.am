@@ -16,8 +16,6 @@ ciderdoc_DATA = \
 EXTRA_DIST = $(ciderdoc_DATA)
 
 
-dist_noinst_SCRIPTS = autogen.sh
-
 # Remove doc directory on uninstall
 uninstall-local:
 	-rm -r $(ciderdocdir)

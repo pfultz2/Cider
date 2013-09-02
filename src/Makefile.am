@@ -12,4 +12,4 @@ AM_CPPFLAGS = \
 cider_LDADD = \
     $(GTKSOURCEVIEWMM_LIBS)
 
-AM_CXXFLAGS = -std=gnu++0x 
+AM_CXXFLAGS = -std=gnu++0x -Wall

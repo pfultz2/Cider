@@ -15,5 +15,8 @@ PKG_CHECK_MODULES(GTKSOURCEVIEW,gtksourceviewmm-3.0
 gtksourceview-3.0)
 
 
-AC_OUTPUT([Makefile])
+AC_OUTPUT([
+Makefile
+src/Makefile
+])
 
