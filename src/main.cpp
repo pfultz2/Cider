@@ -21,6 +21,7 @@
 #include <iostream>
 #include <fstream>
 #include <gtksourceviewmm.h>
+#include <cassert>
 #include "config.h"
 
 
@@ -40,12 +41,13 @@ Glib::RefPtr<Gsv::Buffer> open_file(const char * filename)
     buffer->begin_not_undoable_action();
     std::vector<char> contents;
     std::ifstream fs(filename);
-    std::copy(std::istream_iterator<char>(fs), std::istream_iterator<char>(), std::back_inserter(contents));
+    std::copy(std::istreambuf_iterator<char>(fs), std::istreambuf_iterator<char>(), std::back_inserter(contents));
     buffer->set_text(&contents[0], &contents[0] + contents.size());
     buffer->end_not_undoable_action();
     
     buffer->set_modified(false);
     // buffer->place_cursor(buffer->get_start_iter());
+    return buffer;
 }
 
    
@@ -53,8 +55,9 @@ int
 main (int argc, char *argv[])
 {
     Gtk::Main kit(argc, argv);
+    Gsv::init();
     auto buffer = open_file(argv[1]);
-
+    assert(buffer);
     Gsv::View view(buffer);
     // view.set_source_buffer(buffer);
     
