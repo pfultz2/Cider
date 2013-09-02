@@ -19,7 +19,8 @@
 
 #include <gtkmm.h>
 #include <iostream>
-#include <gtksourceviewmm/view.h>
+#include <fstream>
+#include <gtksourceviewmm.h>
 #include "config.h"
 
 
@@ -30,11 +31,11 @@
 
 Glib::RefPtr<Gsv::Buffer> open_file(const char * filename)
 {
-	auto buffer = Gsv::Buffer::create();
-	auto lm = Gsv::LanguageManager::create();
-	auto lang = lm->guess_language(filename, Glib::ustring());
-	buffer->set_highlight_syntax(true);
-	buffer->set_language(lang);
+    auto buffer = Gsv::Buffer::create();
+    auto lm = Gsv::LanguageManager::create();
+    auto lang = lm->guess_language(filename, Glib::ustring());
+    buffer->set_highlight_syntax(true);
+    buffer->set_language(lang);
 
     buffer->begin_not_undoable_action();
     std::vector<char> contents;
@@ -42,30 +43,30 @@ Glib::RefPtr<Gsv::Buffer> open_file(const char * filename)
     std::copy(std::istream_iterator<char>(fs), std::istream_iterator<char>(), std::back_inserter(contents));
     buffer->set_text(&contents[0], &contents[0] + contents.size());
     buffer->end_not_undoable_action();
-	
-	buffer->set_modified(false);
-	buffer->place_cursor(buffer->get_start_iter());
+    
+    buffer->set_modified(false);
+    // buffer->place_cursor(buffer->get_start_iter());
 }
 
    
 int
 main (int argc, char *argv[])
 {
-	Gtk::Main kit(argc, argv);
-	auto buffer = open_file(args[1]);
+    Gtk::Main kit(argc, argv);
+    auto buffer = open_file(argv[1]);
 
-	auto view = Gsv::View::create();
-	view.set_source_buffer(buffer);
-	
-	Gtk::Window* main_win = new Gtk::Window (Gtk::WINDOW_TOPLEVEL);
-	main_win->set_title ("Cider");
-	main_win->add(view);
-	main_win->show_all_children();
+    Gsv::View view(buffer);
+    // view.set_source_buffer(buffer);
+    
+    Gtk::Window* main_win = new Gtk::Window (Gtk::WINDOW_TOPLEVEL);
+    main_win->set_title ("Cider");
+    main_win->add(view);
+    main_win->show_all_children();
 
-	if (main_win)
-	{
-		kit.run(*main_win);
-	}
-	return 0;
+    if (main_win)
+    {
+        kit.run(*main_win);
+    }
+    return 0;
 }
 

@@ -14,8 +14,6 @@ PKG_CHECK_MODULES(GTKSOURCEVIEWMM,gtksourceviewmm-3.0)
 PKG_CHECK_MODULES(GTKSOURCEVIEW,gtksourceviewmm-3.0
 gtksourceview-3.0)
 
-PKG_CHECK_MODULES(CIDER, [gtkmm-3.0 ])
-
 
 AC_OUTPUT([Makefile])
 
