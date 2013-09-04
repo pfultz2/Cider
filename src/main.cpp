@@ -17,12 +17,14 @@
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <gtkmm.h>
-#include <iostream>
-#include <fstream>
-#include <gtksourceviewmm.h>
+// #include <gtkmm.h>
+// #include <iostream>
+// #include <fstream>
+// #include <gtksourceviewmm.h>
 #include <cassert>
 #include "config.h"
+
+#include "main_window.h"
 
 
 #ifdef ENABLE_NLS
@@ -30,46 +32,58 @@
 #endif
 
 
-Glib::RefPtr<Gsv::Buffer> open_file(const char * filename)
-{
-    auto buffer = Gsv::Buffer::create();
-    auto lm = Gsv::LanguageManager::create();
-    auto lang = lm->guess_language(filename, Glib::ustring());
-    buffer->set_highlight_syntax(true);
-    buffer->set_language(lang);
+// Glib::RefPtr<Gsv::Buffer> open_file(const char * filename)
+// {
+//     auto buffer = Gsv::Buffer::create();
+//     auto lm = Gsv::LanguageManager::create();
+//     auto lang = lm->guess_language(filename, Glib::ustring());
+//     buffer->set_highlight_syntax(true);
+//     buffer->set_language(lang);
 
-    buffer->begin_not_undoable_action();
-    std::vector<char> contents;
-    std::ifstream fs(filename);
-    std::copy(std::istreambuf_iterator<char>(fs), std::istreambuf_iterator<char>(), std::back_inserter(contents));
-    buffer->set_text(&contents[0], &contents[0] + contents.size());
-    buffer->end_not_undoable_action();
+//     buffer->begin_not_undoable_action();
+//     std::vector<char> contents;
+//     std::ifstream fs(filename);
+//     std::copy(std::istreambuf_iterator<char>(fs), std::istreambuf_iterator<char>(), std::back_inserter(contents));
+//     buffer->set_text(&contents[0], &contents[0] + contents.size());
+//     buffer->end_not_undoable_action();
     
-    buffer->set_modified(false);
-    // buffer->place_cursor(buffer->get_start_iter());
-    return buffer;
+//     buffer->set_modified(false);
+//     // buffer->place_cursor(buffer->get_start_iter());
+//     return buffer;
+// }
+
+
+int main(int argc, char *argv[])
+{
+  Gsv::init();
+  Glib::RefPtr<Gtk::Application> app = Gtk::Application::create(argc, argv, "clang.cider");
+
+  main_window window;
+  window.open(argv[1]);
+  //Shows the window and returns when it is closed.
+  return app->run(window);
 }
 
    
-int
-main (int argc, char *argv[])
-{
-    Gtk::Main kit(argc, argv);
-    Gsv::init();
-    auto buffer = open_file(argv[1]);
-    assert(buffer);
-    Gsv::View view(buffer);
-    // view.set_source_buffer(buffer);
+// int
+// main (int argc, char *argv[])
+// {
+//     Gtk::Main kit(argc, argv);
+//     Gsv::init();
+//     auto buffer = open_file(argv[1]);
+//     assert(buffer);
+//     Gsv::View view(buffer);
+//     // view.set_source_buffer(buffer);
     
-    Gtk::Window* main_win = new Gtk::Window (Gtk::WINDOW_TOPLEVEL);
-    main_win->set_title ("Cider");
-    main_win->add(view);
-    main_win->show_all_children();
+//     Gtk::Window* main_win = new Gtk::Window (Gtk::WINDOW_TOPLEVEL);
+//     main_win->set_title ("Cider");
+//     main_win->add(view);
+//     main_win->show_all_children();
 
-    if (main_win)
-    {
-        kit.run(*main_win);
-    }
-    return 0;
-}
+//     if (main_win)
+//     {
+//         kit.run(*main_win);
+//     }
+//     return 0;
+// }
 

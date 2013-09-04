@@ -1,7 +1,7 @@
 
 
 bin_PROGRAMS = cider
-cider_SOURCES = main.cpp
+cider_SOURCES = main.cpp main_window.cpp
 
 AM_CPPFLAGS = \
     -DPACKAGE_LOCALE_DIR=\""$(localedir)"\" \
