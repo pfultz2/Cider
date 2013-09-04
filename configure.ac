@@ -2,9 +2,7 @@ AC_INIT(cider, 0.1)
 
 AC_CONFIG_HEADERS([config.h])
 
-AM_INIT_AUTOMAKE([1.11])
-
-AM_SILENT_RULES([yes])
+AM_INIT_AUTOMAKE([1.10])
 
 AC_PROG_CXX
 
